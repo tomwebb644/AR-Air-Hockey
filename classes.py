@@ -59,7 +59,7 @@ class Timer(pygame.font.Font):
     def update(self, delTime):
         #updates the time. the logic for the timer 
         self.milliseconds += delTime
-        if self.milliseconds > 1000:
+        if self.milliseconds >= 1000:
             self.seconds -= 1
             self.milliseconds = 0
         if self.seconds == 0:
