@@ -159,8 +159,8 @@ def main():
 
         #blits all the objects on to the display every frame
         display.blit(background, puck.rect, puck.rect)
-        display.blit(background, player1_obj.rect, player1_obj.rect)
-        display.blit(background, player2_obj.rect, player2_obj.rect)
+        display.blit(background, player1.rect, player1.rect)
+        display.blit(background, player2.rect, player2.rect)
         display.blit(player1Text, (550, 175))
         display.blit(player2Text, (220, 175))
         display.blit(timeText, (340, 180))
