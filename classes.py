@@ -39,8 +39,8 @@ class Scores(pygame.font.Font):
         pygame.font.Font.__init__(self, fontType, size)
         self.score = score
     def scoreUpdate(self, newScore):
-        #this methods updates the time on the display
-        self.score = newScore 
+        # updates the score on the display.
+        self.score = newScore
 
 class Timer(pygame.font.Font):
     '''
