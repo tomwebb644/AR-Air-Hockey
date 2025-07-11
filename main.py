@@ -17,15 +17,8 @@ def main():
     player2Score = Scores('digital-7.ttf', 70, 0) 
 
     
-    
-    puck = pygame.image.load('models/puck.png')
-    puck_offset = (puck.get_height()/2, puck.get_width()/2)
-    red_paddle_img = pygame.image.load('models/red_paddle.png')
-    red_paddle = pygame.transform.scale(red_paddle_img, (150, 150))
-    red_paddle_offset = (red_paddle.get_height()/2, red_paddle.get_width()/2)
-    blue_paddle_img = pygame.image.load('models/blue_paddle.png')
-    blue_paddle = pygame.transform.scale(blue_paddle_img, (150, 150))
-    blue_paddle_offset = (blue_paddle.get_height()/2, blue_paddle.get_width()/2)
+    puck = Puck(random.uniform(0, 2 * math.pi), 0)
+    puck_group = pygame.sprite.RenderPlain(puck)
 
     player1_obj = Player1()
     player1 = pygame.sprite.RenderPlain(player1_obj)
@@ -126,8 +119,8 @@ def main():
             mainM = True
 
         #updating the scores 
-        player1Text = player1Score.render(str(puck.playerScore), False, (0,0,0))
-        #player2Text = player2Score.render(str(puck.player2Score), False, (0,0,0))
+        player1Text = player1Score.render(str(puck.player1Score), False, (0,0,0))
+        player2Text = player2Score.render(str(puck.player2Score), False, (0,0,0))
 
         #checking the updating the clock 
         timeElapsed = clock.tick(60)
@@ -143,14 +136,14 @@ def main():
                 player1.mouseMove()
             
         #checks for the collision between puck and player sprite, handles its collision
-        if pygame.sprite.groupcollide(puck, player1, False, False, pygame.sprite.collide_circle):
+        if pygame.sprite.groupcollide(puck_group, player1, False, False, pygame.sprite.collide_circle):
 
             (dx, dy) = pygame.mouse.get_rel()
             
             puck.angle = math.atan2(dy, dx)
             puck.speed = 30
 
-        if pygame.sprite.groupcollide(puck, player2, False, False, pygame.sprite.collide_circle):
+        if pygame.sprite.groupcollide(puck_group, player2, False, False, pygame.sprite.collide_circle):
 
             (dx, dy) = pygame.mouse.get_rel()
             
@@ -159,7 +152,7 @@ def main():
     
         #places the puck back in the 
         if puck.goal:
-            puck.goal = False 
+            puck.goal = False
             puck.rect.center = puck.area.center
 
         
@@ -175,13 +168,13 @@ def main():
         
         #updates the sprites 
         player1.update()
-        player2.update() 
-        puck.update()
+        player2.update()
+        puck_group.update()
     
         
         player1.draw(display)
         player2.draw(display)
-        puck.draw(display)
+        puck_group.draw(display)
         
     
         pygame.display.flip()

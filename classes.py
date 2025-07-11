@@ -17,9 +17,8 @@ def load_img(name):
     '''
     try:
         image = pygame.image.load(name)
-        
-    except py.error:
-        raise SystemExit(str(geterror()))
+    except pygame.error as e:
+        raise SystemExit(str(e))
     return image, image.get_rect()
 
 class Background(pygame.sprite.Sprite):
@@ -39,8 +38,8 @@ class Scores(pygame.font.Font):
         pygame.font.Font.__init__(self, fontType, size)
         self.score = score
     def scoreUpdate(self, newScore):
-        #this methods updates the time on the display
-        self.score = newScore 
+        # updates the score on the display.
+        self.score = newScore
 
 class Timer(pygame.font.Font):
     '''
@@ -59,7 +58,7 @@ class Timer(pygame.font.Font):
     def update(self, delTime):
         #updates the time. the logic for the timer 
         self.milliseconds += delTime
-        if self.milliseconds > 1000:
+        if self.milliseconds >= 1000:
             self.seconds -= 1
             self.milliseconds = 0
         if self.seconds == 0:
@@ -82,7 +81,7 @@ class Puck(pygame.sprite.Sprite):
     def __init__(self, angle, speed):
         #variable instantiation
         pygame.sprite.Sprite.__init__(self)
-        self.image, self.rect = load_img('puck.png')
+        self.image, self.rect = load_img('models/puck.png')
         screen = pygame.display.get_surface()
         self.area = screen.get_rect()
         self.angle = angle
