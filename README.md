@@ -1,2 +1,2 @@
 # AR-Air-Hockey
-And AR implementation of virtual Air Hockey
+An AR implementation of virtual Air Hockey
