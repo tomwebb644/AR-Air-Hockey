@@ -17,9 +17,8 @@ def load_img(name):
     '''
     try:
         image = pygame.image.load(name)
-        
-    except py.error:
-        raise SystemExit(str(geterror()))
+    except pygame.error as e:
+        raise SystemExit(str(e))
     return image, image.get_rect()
 
 class Background(pygame.sprite.Sprite):
@@ -82,7 +81,7 @@ class Puck(pygame.sprite.Sprite):
     def __init__(self, angle, speed):
         #variable instantiation
         pygame.sprite.Sprite.__init__(self)
-        self.image, self.rect = load_img('puck.png')
+        self.image, self.rect = load_img('models/puck.png')
         screen = pygame.display.get_surface()
         self.area = screen.get_rect()
         self.angle = angle
