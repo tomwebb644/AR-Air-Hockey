@@ -20,6 +20,12 @@ def main():
     puck = Puck(random.uniform(0, 2 * math.pi), 0)
     puck_group = pygame.sprite.RenderPlain(puck)
 
+    # Instantiate the player sprite objects and keep references to both the
+    # actual object and the sprite group containing it.  The code originally
+    # stored only the group which made it difficult to access attributes of the
+    # underlying sprite such as ``rect`` or custom methods like ``mouseMove``.
+    # Keeping the object references allows us to update the sprite while still
+    # using the group for drawing and collision detection.
     player1_obj = Player1()
     player1 = pygame.sprite.RenderPlain(player1_obj)
     player2_obj = Player2()
@@ -133,7 +139,9 @@ def main():
             if event.type == QUIT:
                 pygame.quit()
             elif event.type == MOUSEMOTION:
-                player1.mouseMove()
+                # ``mouseMove`` is defined on the sprite object, not the group
+                # wrapper, so call it on ``player1_obj``.
+                player1_obj.mouseMove()
             
         #checks for the collision between puck and player sprite, handles its collision
         if pygame.sprite.groupcollide(puck_group, player1, False, False, pygame.sprite.collide_circle):
@@ -159,8 +167,11 @@ def main():
 
         #blits all the objects on to the display every frame
         display.blit(background, puck.rect, puck.rect)
-        display.blit(background, player1.rect, player1.rect)
-        display.blit(background, player2.rect, player2.rect)
+        # ``player1`` and ``player2`` are sprite groups. For clearing the
+        # background from the previous frame we need the rects of the actual
+        # sprite objects.
+        display.blit(background, player1_obj.rect, player1_obj.rect)
+        display.blit(background, player2_obj.rect, player2_obj.rect)
         display.blit(player1Text, (550, 175))
         display.blit(player2Text, (220, 175))
         display.blit(timeText, (340, 180))
